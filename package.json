@@ -15,9 +15,13 @@
       "client"
     ]
   },
+  "type": "module",
   "author": "David DY Kim https://github.com/koyykdy <koyykdy@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
     "css-loader": "^6.7.1",
     "express": "^4.17.3",
     "mongo": "^0.1.0",
