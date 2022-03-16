@@ -2,12 +2,16 @@
   "name": "questboard",
   "version": "1.0.0",
   "description": "quest board task tracker",
-  "main": "index.js",
+  "main": "./server/server.js",
   "scripts": {
     "start": "node ./server/server.js",
     "test": "echo \"No testing library implemented\" && exit 1",
     "prod": "export NODE_ENV=production; webpack serve",
     "dev": "concurrently \"export NODE_ENV=development; webpack serve\" \"nodemon ./server/server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koyykdy/Quest-Tracker.git"
   },
   "nodemonConfig": {
     "ignore": [
@@ -19,6 +23,7 @@
   "author": "David DY Kim https://github.com/koyykdy <koyykdy@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
@@ -32,6 +37,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "style-loader": "^3.3.1"
   },
   "devDependencies": {

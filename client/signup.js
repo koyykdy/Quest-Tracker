@@ -1,0 +1,1 @@
+// render a signup page with reactive components

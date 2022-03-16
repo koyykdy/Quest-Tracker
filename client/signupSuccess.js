@@ -1,0 +1,1 @@
+// render a sign-up success page with reactive components

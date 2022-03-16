@@ -2,10 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: 'index.js',
+  entry: {
+    questboard: './client/questboard.js',
+    login: './client/login.js',
+    signup: './client/signup.js',
+    signupSuccess: './client/signupSuccess.js'
+  },
   output: {
-    path: path.resolve(__dirname, './build'),
-    filename: 'webpacked.js'
+    filename: '[name].js',
+    path: path.resolve(__dirname, './build')
   },
   mode: process.env.NODE_ENV,
   module: {
@@ -33,10 +38,35 @@ module.exports = {
       }
     ]
   },
-  plugins: [ new HtmlWebpackPlugin({ template: './index.html' }) ],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'QuestBoard',
+      filename: 'questboard.html',
+      template: './client/static/questboard.html',
+      chunks: ['questboard']
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Login',
+      filename: 'login.html',
+      template: './client/static/login.html',
+      chunks: ['login']
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Signup',
+      filename: 'signup.html',
+      template: './client/static/signup.html',
+      chunks: ['signup']
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Signup Success',
+      filename: 'signupSuccess.html',
+      template: './client/static/signupSuccess.html',
+      chunks: ['signupSuccess']
+    })
+  ],
   devServer: {
     proxy: {
-      '/endpoint': 'http://localhost:3000'
+      '/questboard': 'http://localhost:3000'
     },
     static: {
       directory: path.resolve(__dirname, './build')
