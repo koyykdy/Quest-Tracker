@@ -7,7 +7,8 @@
     "start": "node ./server/server.js",
     "test": "echo \"No testing library implemented\" && exit 1",
     "prod": "export NODE_ENV=production; webpack serve",
-    "dev": "concurrently \"export NODE_ENV=development; webpack serve\" \"nodemon ./server/server.js\""
+    "dev": "concurrently \"export NODE_ENV=development; webpack serve\" \"nodemon ./server/server.js\"",
+    "dropDB": "mongo questboard-dev --eval \"db.dropDatabase();\""
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,6 @@
       "client"
     ]
   },
-  "type": "module",
   "author": "David DY Kim https://github.com/koyykdy <koyykdy@gmail.com>",
   "license": "ISC",
   "dependencies": {
@@ -27,6 +27,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "css-loader": "^6.7.1",
     "express": "^4.17.3",
     "mongo": "^0.1.0",
@@ -36,8 +37,11 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.2",
     "redux": "^4.1.2",
+    "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "regenerator-runtime": "^0.13.9",
     "style-loader": "^3.3.1"
   },
   "devDependencies": {

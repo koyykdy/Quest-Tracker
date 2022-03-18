@@ -57,3 +57,7 @@ export const loadMarkets = () => (dispatch) => {
     })
     .catch(console.error);
 };
+
+export const loadQuests = () => (dispatch) => {
+  console.log('test');
+}

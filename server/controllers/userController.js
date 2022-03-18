@@ -1,13 +1,20 @@
-const User = require('../models/userModel'); // <- Mongoose model
+const Users = require('../models/userModel'); // <- Mongoose model
 
 const userController = {
   getAllUsers: (req, res, next) => {
-    User.find({}, (err, users) => {
+    Users.find({}, (err, users) => {
       // if a database error occurs, call next with the error message passed in
       // for the express global error handler to catch
-      if (err) return next('Error in userController.getAllUsers: ' + JSON.stringify(err));
+      if (err) {
+        const errObj = {
+          log: 'Error in middleware function userController.getAllUsers',
+          status: 418,
+          message: { err: mongoErr }, 
+        };
+        return next(errObj);
+      }
       // store retrieved users into res.locals and move on to next middleware
-      res.locals.users = users;
+      res.locals.allUsers = users;
       return next();
     });
   },
@@ -16,18 +23,27 @@ const userController = {
   * createUser - create and save a new User into the database.
   */
   createUser: (req, res, next) => {
-    // req.body -> { username: [String], password: [String] }
-    if (Object.prototype.hasOwnProperty.call(req.body, 'username') && Object.prototype.hasOwnProperty.call(req.body, 'password')) {
-      if (typeof req.body.username === 'string' && typeof req.body.password === 'string') {
-        res.locals.newUser = req.body;
-        next();
-      } else {
-        // everything here is an error
-        next('ERROR in userController.createUser: request body\'s username or password wasn\'t of type string');
+    // req.body -> { username: String, password: String, nickname: String, email: String, tos: Boolean}
+    // console.log('received request: ');
+    // console.log(req.body);
+    const { username, password, nickname, email, tos } = req.body;
+    const user = {username: username, password: password, nickname: nickname, email: email, tos: tos};
+    // console.log('user object: ');
+    // console.log(user);
+    Users.create(user, (mongoErr, addedUser) => {
+      if (mongoErr) {
+        console.log('there was an error reported by mongo db: ');
+        console.log(mongoErr);
+        const errObj = {
+          log: 'Error in middleware function userController.createUser',
+          status: 418,
+          message: { err: mongoErr }, 
+        };
+        return next(errObj);
       }
-    } else {
-      next('ERROR in userController.createUser: request body doesn\'t have username or password');
-    }
+      res.locals.newUser = addedUser;
+      return next();
+    })
   },
 
   /**
@@ -37,7 +53,28 @@ const userController = {
   */
   verifyUser: (req, res, next) => {
     // write code here
-  
+    console.log('checking login request...');
+    const { username, password } = req.body;
+    Users.findOne({ username: username }, (mongoErr, foundUser) => {
+      let errSeen = false;
+      if (mongoErr || !foundUser) errSeen = true;
+      else if (foundUser.password !== password) errSeen = true;
+      if (errSeen) {
+        // deny log in and alert incorrect login credentials for security purposes (combining user not found and incorrect password)
+        // extension: count unsuccessful attempts from IP and block after too many bad requests
+        if (mongoErr) console.log(mongoErr);
+        const errObj = {
+          log: 'unsuccessful log-in attempt',
+          status: 418,
+          message: { err: 'unsuccessful log-in attempt' }, 
+        };
+        return next(errObj);
+      }
+      // username and password found in database and matches, allow request to continue to pass through, 
+      // to either a cookie-setting midware or the final midware chain
+      console.log('successful log-in');
+      return next();
+    })
   }
 };
 

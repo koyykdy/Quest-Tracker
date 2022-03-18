@@ -1,10 +1,11 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
     questboard: './client/questboard.js',
-    login: './client/login.js',
+    index: './client/index.js',
     signup: './client/signup.js',
     signupSuccess: './client/signupSuccess.js'
   },
@@ -12,6 +13,7 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, './build')
   },
+  devtool: 'eval-source-map',
   mode: process.env.NODE_ENV,
   module: {
     rules: [
@@ -42,26 +44,30 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'QuestBoard',
       filename: 'questboard.html',
-      template: './client/static/questboard.html',
+      template: path.resolve(__dirname, './client/static/questboard.html'),
       chunks: ['questboard']
     }),
     new HtmlWebpackPlugin({
-      title: 'Login',
-      filename: 'login.html',
-      template: './client/static/login.html',
-      chunks: ['login']
+      title: 'Index',
+      filename: 'index.html',
+      template: path.resolve(__dirname, './client/static/index.html'),
+      chunks: ['index']
     }),
     new HtmlWebpackPlugin({
       title: 'Signup',
       filename: 'signup.html',
-      template: './client/static/signup.html',
+      template: path.resolve(__dirname, './client/static/signup.html'),
       chunks: ['signup']
     }),
     new HtmlWebpackPlugin({
       title: 'Signup Success',
       filename: 'signupSuccess.html',
-      template: './client/static/signupSuccess.html',
+      template: path.resolve(__dirname, './client/static/signupSuccess.html'),
       chunks: ['signupSuccess']
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.MY_ENV': JSON.stringify(process.env.MY_ENV),
     })
   ],
   devServer: {
