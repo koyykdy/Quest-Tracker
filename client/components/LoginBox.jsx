@@ -54,7 +54,26 @@ class LoginBox extends Component{
     });
   }
 
-  render(){
+  render() {
+    return (
+      <div id="LoginBox">
+        <form id="loginForm" onSubmit={this.onSubmit}>
+          <input name="username" id="usernameInput" type="text"     placeholder="username"></input>
+          <br/>
+          <br/>
+          <input name="password" id="passwordInput" type="password" placeholder="password"></input>
+          <br/>
+          <br/>
+          <button class='signUpButton' type="submit">Sign Up</button>
+          <br/>
+          <br/>
+          <button class='loginButton' type="submit">Log In</button>
+        </form>
+      </div>
+    )
+  }
+
+  /* render(){
     return (
       <div id="LoginBox">
         <form id="loginForm" onSubmit={this.onSubmit}>
@@ -64,7 +83,7 @@ class LoginBox extends Component{
         </form>
       </div>
     )
-  };
+  }; */
 };
 
 // const LoginBox = (submitLogin) => (

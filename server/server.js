@@ -62,6 +62,7 @@ const cookieSetter = function (req, res, next) {
   } 
   next(); // <-- important!
 }
+
 // cookie checker middleware function defition TODO: modularize into own file later
 const cookieChecker = function (req, res, next) {
   console.log('checking for cookies');

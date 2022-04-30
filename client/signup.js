@@ -44,8 +44,6 @@ class Signup extends Component {
     // make a post request to server backend /login with username and password in the request body
     const port = process.env.NODE_ENV === 'development' ? 3000 : 8080;
     const url = `http://localhost:${port}/signup`;
-    const signupObject = {
-    };
     fetch(url, { // <- returns a response asynchronously
       method: 'GET' // *GET, POST, PUT, DELETE, etc.
       // mode: 'no-cors',
